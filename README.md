@@ -31,3 +31,9 @@ docker-compose run lando pytest -q
 ```powershell
 curl -X POST http://localhost:8090/chat -H "Content-Type: application/json" -d "{\"message\": \"Hello Lando!\"}"
 ```
+
+
+## Render deployment note
+
+This project depends on `torch`/`transformers`, which currently require a Python version with prebuilt wheels available.
+For Render, pin Python to **3.10** using `runtime.txt` (included in this repo) to avoid install failures on Render's default newer Python runtimes.
