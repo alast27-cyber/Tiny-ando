@@ -8,6 +8,7 @@ _model = None
 
 
 def _get_model_components():
+    """Lazily initialize and cache model dependencies."""
     global _tokenizer, _model
     if _tokenizer is None or _model is None:
         from transformers import AutoTokenizer, AutoModelForCausalLM
@@ -25,15 +26,20 @@ def healthz():
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json(silent=True) or {}
-    user_message = data.get("message", "")
+    raw_message = data.get("message", "")
+    user_message = raw_message.strip() if isinstance(raw_message, str) else ""
 
     if not user_message:
         return jsonify({"error": "message is required"}), 400
 
-    tokenizer, model = _get_model_components()
-    inputs = tokenizer(user_message, return_tensors="pt")
-    outputs = model.generate(**inputs, max_length=50)
-    reply = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    try:
+        tokenizer, model = _get_model_components()
+        inputs = tokenizer(user_message, return_tensors="pt")
+        outputs = model.generate(**inputs, max_length=50)
+        reply = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    except Exception:
+        return jsonify({"error": "chat model unavailable"}), 503
+
     return jsonify({"reply": reply})
 
 
