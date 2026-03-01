@@ -72,3 +72,6 @@ Fix:
    - Build command: `./scripts/render-build.sh`
    - Start command: `./scripts/render-start.sh`
 3. Keep Python pinned to `3.10.14` (`runtime.txt`, `.python-version`, and `PYTHON_VERSION` env var are included).
+
+
+On Render, this project installs **CPU-only PyTorch wheels** from `https://download.pytorch.org/whl/cpu` to avoid downloading CUDA packages and reduce build size/time.
