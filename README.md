@@ -55,3 +55,20 @@ If Render still detects 3.14, add `.python-version` and set `PYTHON_VERSION=3.10
 4. Set health check path to `/healthz`.
 
 You can also deploy using `render.yaml` included in this repo.
+
+
+## Render troubleshooting
+
+If you see this error:
+
+- `Empty build command; skipping build`
+- `Publish directory dish does not exist`
+
+then the service was created as a **Static Site**. This repo is a Flask API and must be deployed as a **Web Service**.
+
+Fix:
+1. In Render, create/select a **Web Service** (not Static Site).
+2. Use the included `render.yaml` blueprint, or set:
+   - Build command: `./scripts/render-build.sh`
+   - Start command: `./scripts/render-start.sh`
+3. Keep Python pinned to `3.10.14` (`runtime.txt`, `.python-version`, and `PYTHON_VERSION` env var are included).
