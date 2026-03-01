@@ -24,6 +24,7 @@ docker-compose run lando python app/train.py
 
 ### 4. Run tests
 ```powershell
+docker-compose run lando pip install -r requirements-dev.txt
 docker-compose run lando pytest -q
 ```
 
@@ -75,3 +76,6 @@ Fix:
 
 
 On Render, this project installs **CPU-only PyTorch wheels** from `https://download.pytorch.org/whl/cpu` to avoid downloading CUDA packages and reduce build size/time.
+
+
+Render uses a direct CPU torch wheel URL in `requirements.txt` to prevent CUDA dependency downloads during deploy.

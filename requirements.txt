@@ -1,6 +1,4 @@
 flask==3.1.2
-torch==2.2.2+cpu
-transformers==4.44.2
-pytest==8.3.3
 gunicorn==22.0.0
---extra-index-url https://download.pytorch.org/whl/cpu
+transformers==4.44.2
+torch @ https://download.pytorch.org/whl/cpu/torch-2.2.2%2Bcpu-cp310-cp310-linux_x86_64.whl
