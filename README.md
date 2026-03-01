@@ -44,3 +44,13 @@ For Render, pin Python to **3.10** using `runtime.txt` (included in this repo) t
 - `PORT`: web server port (defaults to `8080`; Render sets this automatically).
 - `MODEL_NAME`: Hugging Face model id to load (defaults to `distilgpt2`).
 - `MAX_INPUT_CHARS`: maximum accepted `message` length for `/chat` (defaults to `1000`).
+
+
+## Render quick setup
+
+1. Ensure `runtime.txt` is present (Python 3.10 pin).
+2. Use `pip install -r requirements.txt` as the build command.
+3. Use `gunicorn --bind 0.0.0.0:$PORT app.main:app` as the start command.
+4. Set health check path to `/healthz`.
+
+You can also deploy using `render.yaml` included in this repo.
