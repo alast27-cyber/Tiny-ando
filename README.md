@@ -79,3 +79,6 @@ On Render, this project installs **CPU-only PyTorch wheels** from `https://downl
 
 
 Render uses a direct CPU torch wheel URL in `requirements.txt` to prevent CUDA dependency downloads during deploy.
+
+
+After updating deployment files, trigger a **manual redeploy** in Render so it uses the latest commit.
