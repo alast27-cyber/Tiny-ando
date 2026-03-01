@@ -34,6 +34,14 @@ def _extract_message(payload):
     return user_message
 
 
+def _generate_reply(user_message):
+    """Generate a chat reply for a validated message."""
+    tokenizer, model = _get_model_components()
+    inputs = tokenizer(user_message, return_tensors="pt")
+    outputs = model.generate(**inputs, max_length=50)
+    return tokenizer.decode(outputs[0], skip_special_tokens=True)
+
+
 @app.route("/healthz", methods=["GET"])
 def healthz():
     return jsonify({"status": "ok"})
@@ -48,10 +56,7 @@ def chat():
         return jsonify({"error": "message is required"}), 400
 
     try:
-        tokenizer, model = _get_model_components()
-        inputs = tokenizer(user_message, return_tensors="pt")
-        outputs = model.generate(**inputs, max_length=50)
-        reply = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        reply = _generate_reply(user_message)
     except (ImportError, OSError, RuntimeError, ValueError):
         return jsonify({"error": "chat model unavailable"}), 503
 

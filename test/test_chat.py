@@ -35,11 +35,21 @@ def test_chat_rejects_non_object_json_payload():
 def test_chat_returns_503_if_model_unavailable(monkeypatch):
     client = app.test_client()
 
-    def _boom():
+    def _boom(_):
         raise RuntimeError("model init failed")
 
-    monkeypatch.setattr("app.main._get_model_components", _boom)
+    monkeypatch.setattr("app.main._generate_reply", _boom)
 
     response = client.post("/chat", json={"message": "hello"})
     assert response.status_code == 503
     assert response.json == {"error": "chat model unavailable"}
+
+
+def test_chat_returns_generated_reply(monkeypatch):
+    client = app.test_client()
+
+    monkeypatch.setattr("app.main._generate_reply", lambda _: "hi from lando")
+
+    response = client.post("/chat", json={"message": "hello"})
+    assert response.status_code == 200
+    assert response.json == {"reply": "hi from lando"}
