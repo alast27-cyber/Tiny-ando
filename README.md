@@ -82,3 +82,6 @@ Render uses a direct CPU torch wheel URL in `requirements.txt` to prevent CUDA d
 
 
 After updating deployment files, trigger a **manual redeploy** in Render so it uses the latest commit.
+
+
+Render blueprint now pins `branch: main` with `autoDeploy: true` in `render.yaml` so deployments follow the latest pushed commit on main.

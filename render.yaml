@@ -1,6 +1,8 @@
 services:
   - type: web
     name: tiny-ando
+    branch: main
+    autoDeploy: true
     env: python
     plan: free
     runtime: python
