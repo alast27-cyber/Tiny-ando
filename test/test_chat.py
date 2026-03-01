@@ -1,4 +1,4 @@
-from app.main import app
+from app.main import app, MAX_INPUT_CHARS
 
 
 def test_healthz():
@@ -30,6 +30,13 @@ def test_chat_rejects_non_object_json_payload():
     response = client.post("/chat", json=["hello"])
     assert response.status_code == 400
     assert response.json == {"error": "message is required"}
+
+
+def test_chat_rejects_overly_long_message():
+    client = app.test_client()
+    response = client.post("/chat", json={"message": "x" * (MAX_INPUT_CHARS + 1)})
+    assert response.status_code == 400
+    assert response.json == {"error": f"message exceeds {MAX_INPUT_CHARS} characters"}
 
 
 def test_chat_returns_503_if_model_unavailable(monkeypatch):

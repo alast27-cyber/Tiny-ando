@@ -1,8 +1,11 @@
+import os
+
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
-MODEL_NAME = "distilgpt2"
+MODEL_NAME = os.getenv("MODEL_NAME", "distilgpt2")
+MAX_INPUT_CHARS = int(os.getenv("MAX_INPUT_CHARS", "1000"))
 _tokenizer = None
 _model = None
 
@@ -55,6 +58,9 @@ def chat():
     if user_message is None:
         return jsonify({"error": "message is required"}), 400
 
+    if len(user_message) > MAX_INPUT_CHARS:
+        return jsonify({"error": f"message exceeds {MAX_INPUT_CHARS} characters"}), 400
+
     try:
         reply = _generate_reply(user_message)
     except (ImportError, OSError, RuntimeError, ValueError):
@@ -64,4 +70,5 @@ def chat():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
+    port = int(os.getenv("PORT", "8080"))
+    app.run(host="0.0.0.0", port=port)

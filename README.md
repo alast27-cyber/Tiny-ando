@@ -37,3 +37,10 @@ curl -X POST http://localhost:8090/chat -H "Content-Type: application/json" -d "
 
 This project depends on `torch`/`transformers`, which currently require a Python version with prebuilt wheels available.
 For Render, pin Python to **3.10** using `runtime.txt` (included in this repo) to avoid install failures on Render's default newer Python runtimes.
+
+
+### Runtime environment variables
+
+- `PORT`: web server port (defaults to `8080`; Render sets this automatically).
+- `MODEL_NAME`: Hugging Face model id to load (defaults to `distilgpt2`).
+- `MAX_INPUT_CHARS`: maximum accepted `message` length for `/chat` (defaults to `1000`).
