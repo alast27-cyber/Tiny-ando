@@ -37,6 +37,7 @@ curl -X POST http://localhost:8090/chat -H "Content-Type: application/json" -d "
 
 This project depends on `torch`/`transformers`, which currently require a Python version with prebuilt wheels available.
 For Render, pin Python to **3.10** using `runtime.txt` (included in this repo) to avoid install failures on Render's default newer Python runtimes.
+If Render still detects 3.14, add `.python-version` and set `PYTHON_VERSION=3.10.14` (included via `render.yaml`).
 
 
 ### Runtime environment variables
