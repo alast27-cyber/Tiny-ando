@@ -19,6 +19,18 @@ def test_chat_requires_message():
     assert response.status_code == 400
     assert response.json == {"error": "message is required"}
 
+    response = client.post("/chat", json={"message": 123})
+    assert response.status_code == 400
+    assert response.json == {"error": "message is required"}
+
+
+def test_chat_rejects_non_object_json_payload():
+    client = app.test_client()
+
+    response = client.post("/chat", json=["hello"])
+    assert response.status_code == 400
+    assert response.json == {"error": "message is required"}
+
 
 def test_chat_returns_503_if_model_unavailable(monkeypatch):
     client = app.test_client()
