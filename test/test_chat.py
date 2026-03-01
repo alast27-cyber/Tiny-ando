@@ -1,6 +1,18 @@
 from app.main import app, MAX_INPUT_CHARS
 
 
+
+
+def test_index_route():
+    client = app.test_client()
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.json == {
+        "service": "tiny-ando",
+        "status": "ok",
+        "endpoints": ["/healthz", "/chat"],
+    }
+
 def test_healthz():
     client = app.test_client()
     response = client.get("/healthz")

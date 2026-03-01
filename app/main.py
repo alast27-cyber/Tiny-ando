@@ -45,6 +45,16 @@ def _generate_reply(user_message):
     return tokenizer.decode(outputs[0], skip_special_tokens=True)
 
 
+
+
+@app.route("/", methods=["GET"])
+def index():
+    return jsonify({
+        "service": "tiny-ando",
+        "status": "ok",
+        "endpoints": ["/healthz", "/chat"],
+    })
+
 @app.route("/healthz", methods=["GET"])
 def healthz():
     return jsonify({"status": "ok"})
