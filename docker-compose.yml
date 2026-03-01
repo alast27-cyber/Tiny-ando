@@ -1,0 +1,9 @@
+services:
+  lando:
+    build: .
+    container_name: lando-final
+    ports:
+      - "8090:8080"
+    volumes:
+      - .:/app
+    command: python app/main.py
